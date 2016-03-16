@@ -19,13 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AddDoctor"
-            android:label="@string/title_activity_add_doctor"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".UpdateDoctor" >
-        </activity>
 
         <receiver android:name=".SmsManager" >
             <intent-filter android:priority="999" >

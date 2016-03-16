@@ -42,30 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        add=(Button)findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), AddDoctor.class);
-
-
-                startActivity(intent);
-
-            }
-        });
-
-        update=(Button)findViewById(R.id.update);
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), UpdateDoctor.class);
-
-                startActivity(intent);
-
-            }
-        });
 
 
     }

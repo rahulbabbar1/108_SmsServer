@@ -52,8 +52,8 @@ public class SmsManager extends BroadcastReceiver {
                     test.setTimetable(newtest);
                     db.updateSchedule(test);
                     android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, smsBody, null, null);
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, newtest, null, null);
+                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done", null, null);
+
 
                 }
 
