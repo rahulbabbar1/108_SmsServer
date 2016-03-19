@@ -38,21 +38,29 @@ public class SmsManager extends BroadcastReceiver {
                     android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
                     smsManager.sendTextMessage(msg.getOriginatingAddress(), null, smsBody, null, null);
 
-                }
-
-                else if (msg.getDisplayMessageBody().contains("><")) {
+                } else if (msg.getDisplayMessageBody().contains("><")) {
                     DBHandler db = new DBHandler(context);
-                    int i = Integer.parseInt(msg.getDisplayMessageBody().substring(2,4));
+                    int i = Integer.parseInt(msg.getDisplayMessageBody().substring(2, 4));
                     String str2 = msg.getDisplayMessageBody().substring(4);
                     Schedule test;
                     test = db.getSchedule(Integer.parseInt(str2));
 
                     String smsBody = test.getTimetable();
-                    String newtest = smsBody.substring(0,i)+'1'+smsBody.substring(i+1);
+                    String newtest = smsBody.substring(0, i) + '1' + smsBody.substring(i + 1);
                     test.setTimetable(newtest);
                     db.updateSchedule(test);
+                    String strdate = "";
+                    int x = i % 24;
+                    int y = i / 24;
+                    if (y == 0) {
+                        strdate = "Today";
+                    } else if (y == 1) {
+                        strdate = "Tomorrow";
+                    } else if (y == 2) {
+                        strdate = "Day after tomorrow";
+                    }
                     android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done", null, null);
+                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done for " + " " + strdate + " " + "at" + " " + x + ":00 hrs", null, null);
 
 
                 }
