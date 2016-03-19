@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("FIRST_RUN", true);
             editor.commit();
 
+            db.clear();
+
             db.addSchedule(new Schedule(1, "Dr. Saxena", "111111111111000000000111111111111111000000000111111111111111000000000111"));
             db.addSchedule(new Schedule(2, "Dr. Mehta", "111111111111000000000111111111111111000000000111111111111111000000000111"));
             db.addSchedule(new Schedule(3, "Dr. Sharma", "111111111111000000000111111111111111000000000111111111111111000000000111"));

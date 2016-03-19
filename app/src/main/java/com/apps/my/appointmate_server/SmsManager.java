@@ -50,6 +50,7 @@ public class SmsManager extends BroadcastReceiver {
                     test.setTimetable(newtest);
                     db.updateSchedule(test);
                     String strdate = "";
+                    String name=test.getName();
                     int x = i % 24;
                     int y = i / 24;
                     if (y == 0) {
@@ -60,7 +61,7 @@ public class SmsManager extends BroadcastReceiver {
                         strdate = "Day after tomorrow";
                     }
                     android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done for " + " " + strdate + " " + "at" + " " + x + ":00 hrs", null, null);
+                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done for " + " " + strdate + " " + "at" + " " + x + ":00 hrs" +" with "+name, null, null);
 
 
                 }
