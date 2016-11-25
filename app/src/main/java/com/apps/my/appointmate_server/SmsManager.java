@@ -58,7 +58,7 @@ public class SmsManager extends BroadcastReceiver {
                     } else if (y == 1) {
                         strdate = "Tomorrow";
                     } else if (y == 2) {
-                        strdate = "Day after tomorrow";
+                        strdate = g"Day after tomorrow";
                     }
                     android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
                     smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done for " + " " + strdate + " " + "at" + " " + x + ":00 hrs" +" with "+name, null, null);
