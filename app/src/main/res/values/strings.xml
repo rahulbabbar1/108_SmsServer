@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Appointmate_server</string>
+    <string name="app_name">108SmsServer</string>
     <string name="title_activity_add_doctor">AddDoctor</string>
 </resources>

@@ -1,9 +1,13 @@
 package com.apps.my.appointmate_server;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Messenger;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,6 +20,12 @@ import java.util.Date;
  */
 public class SmsManager extends BroadcastReceiver {
 
+    static String recievedMSG = null;
+    static String latitude = null;
+    static String longitude = null;
+    static String TAG = "smsmanager";
+    private LinkAmbulance linkAmbulance = new LinkAmbulance();
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -27,47 +37,24 @@ public class SmsManager extends BroadcastReceiver {
                 Date date = new Date(msg.getTimestampMillis());//时间
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String receiveTime = format.format(date);
-                if (msg.getDisplayMessageBody().contains("<>")) {
-                    DBHandler db = new DBHandler(context);
-                    String str = msg.getDisplayMessageBody().substring(2);
-                    Schedule test;
-                    test = db.getSchedule(Integer.parseInt(str));
-
-                    String smsBody = test.getTimetable();
-
-                    android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, smsBody, null, null);
-
-                } else if (msg.getDisplayMessageBody().contains("><")) {
-                    DBHandler db = new DBHandler(context);
-                    int i = Integer.parseInt(msg.getDisplayMessageBody().substring(2, 4));
-                    String str2 = msg.getDisplayMessageBody().substring(4);
-                    Schedule test;
-                    test = db.getSchedule(Integer.parseInt(str2));
-
-                    String smsBody = test.getTimetable();
-                    String newtest = smsBody.substring(0, i) + '1' + smsBody.substring(i + 1);
-                    test.setTimetable(newtest);
-                    db.updateSchedule(test);
-                    String strdate = "";
-                    String name=test.getName();
-                    int x = i % 24;
-                    int y = i / 24;
-                    if (y == 0) {
-                        strdate = "Today";
-                    } else if (y == 1) {
-                        strdate = "Tomorrow";
-                    } else if (y == 2) {
-                        strdate = g"Day after tomorrow";
-                    }
-                    android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                    smsManager.sendTextMessage(msg.getOriginatingAddress(), null, "Your Booking is Done for " + " " + strdate + " " + "at" + " " + x + ":00 hrs" +" with "+name, null, null);
-
-
+                if (msg.getOriginatingAddress().equals(Constants.serverNumber)) {
+                    recievedMSG = msg.getDisplayMessageBody();
+                    int firstClosBrac = recievedMSG.indexOf(']');
+                    latitude = recievedMSG.substring(recievedMSG.indexOf('[')+1,firstClosBrac);
+                    longitude = recievedMSG.substring(recievedMSG.indexOf('[',firstClosBrac)+1,recievedMSG.indexOf(']',firstClosBrac+1));
+                    Log.d(TAG, "onReceive() called with: " + "latitude = [" + latitude + "], longitude = [" + longitude + "]");
+                    linkAmbulance.assignAmbulance(latitude,longitude);
+//                    Intent i=new Intent(context,LinkAmbulance.class);
+//                    //i.putExtra("isFromSmsReceiver",true);
+//                    i.putExtra("latitude", latitude);
+//                    i.putExtra("longitude",longitude);
+                   // context.startService(i);
                 }
-
 
             }
         }
     }
+
+
+
 }
