@@ -30,6 +30,7 @@ public class SmsManager extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         SmsMessage msg = null;
+
         if (null != bundle) {
             Object[] smsObj = (Object[]) bundle.get("pdus");
             for (Object object : smsObj) {
@@ -37,6 +38,7 @@ public class SmsManager extends BroadcastReceiver {
                 Date date = new Date(msg.getTimestampMillis());//时间
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String receiveTime = format.format(date);
+                Log.d(TAG, "onReceive() called with: " + "context = [" + context + "], intent = [" + intent + "]");
                 if (msg.getOriginatingAddress().equals(Constants.serverNumber)) {
                     recievedMSG = msg.getDisplayMessageBody();
                     int firstClosBrac = recievedMSG.indexOf(']');
